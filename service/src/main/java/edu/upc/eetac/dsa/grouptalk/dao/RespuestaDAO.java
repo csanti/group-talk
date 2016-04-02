@@ -13,11 +13,11 @@ public interface RespuestaDAO {
 
     public Respuesta getResputestaById(String id) throws SQLException;
 
-    public RespuestasCollection getRespuestasFromGrupo(String grupoId) throws SQLException;
+    public RespuestasCollection getRespuestasFromTema(String temaId) throws SQLException;
 
     public Respuesta updateRespuesta(String id, String contenido) throws SQLException;
 
-    public void deleteRespuesta(String id) throws SQLException;
+    public boolean deleteRespuesta(String id) throws SQLException;
 
 
 }
