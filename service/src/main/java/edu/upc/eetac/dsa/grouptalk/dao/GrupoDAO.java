@@ -18,4 +18,10 @@ public interface GrupoDAO {
     public boolean deleteGrupo(String id) throws SQLException;
 
     public GruposCollection getGrupos() throws SQLException;
+
+    public void joinGrupo(String userid, String grupoid) throws SQLException;
+
+    public boolean leaveGrupo(String userid, String grupoid) throws SQLException;
+
+    public boolean checkMembership(String userid, String grupoid) throws SQLException;
 }

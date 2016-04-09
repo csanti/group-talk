@@ -210,46 +210,5 @@ public class UserDAOImpl implements UserDAO{
         }
     }
 
-    @Override
-    public void joinGrupo(String userid, String grupoid) throws SQLException {
-        Connection connection = null;
-        PreparedStatement stmt = null;
-        try {
-            connection = Database.getConnection();
 
-            stmt = connection.prepareStatement(UserDAOQuery.JOIN_GRUPO);
-            stmt.setString(1, userid);
-            stmt.setString(2, grupoid);
-
-            int rows = stmt.executeUpdate();
-            //TODO: Si el usuario ya pertenece al grupo hay que crear otra excepción
-
-        } catch (SQLException e) {
-            throw e;
-        } finally {
-            if (stmt != null) stmt.close();
-            if (connection != null) connection.close();
-        }
-    }
-
-    @Override
-    public boolean leaveGrupo(String userid, String grupoid) throws SQLException {
-        Connection connection = null;
-        PreparedStatement stmt = null;
-        try {
-            connection = Database.getConnection();
-
-            stmt = connection.prepareStatement(UserDAOQuery.LEAVE_GRUPO);
-            stmt.setString(1, userid);
-            stmt.setString(2, grupoid);
-
-            int rows = stmt.executeUpdate();
-            return (rows == 1);
-        } catch (SQLException e) {
-            throw e;
-        } finally {
-            if (stmt != null) stmt.close();
-            if (connection != null) connection.close();
-        }
-    }
 }

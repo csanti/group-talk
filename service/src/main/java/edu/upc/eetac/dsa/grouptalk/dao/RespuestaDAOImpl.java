@@ -86,7 +86,7 @@ public class RespuestaDAOImpl implements RespuestaDAO {
     @Override
     public RespuestasCollection getRespuestasFromTema(String temaId) throws SQLException {
         // Modelo a devolver
-        RespuestasCollection respuestasCollection = null;
+        RespuestasCollection respuestasCollection = new RespuestasCollection();
 
         Connection connection = null;
         PreparedStatement stmt = null;
@@ -95,14 +95,14 @@ public class RespuestaDAOImpl implements RespuestaDAO {
             connection = Database.getConnection();
 
             // Prepara la consulta
-            stmt = connection.prepareStatement(TemaDAOQuery.GET_TEMAS_FROM_GRUPO);
+            stmt = connection.prepareStatement(RespuestaDAOQuery.GET_RESPUESTAS_FROM_TEMA);
             // Da valor a los parámetros de la consulta
             stmt.setString(1, temaId);
 
             // Ejecuta la consulta
             ResultSet rs = stmt.executeQuery();
             // Procesa los resultados
-            if (rs.next()) {
+            while (rs.next()) {
                 Respuesta respuesta = new Respuesta();
                 respuesta.setId(rs.getString("id"));
                 respuesta.setUserid(rs.getString("userid"));

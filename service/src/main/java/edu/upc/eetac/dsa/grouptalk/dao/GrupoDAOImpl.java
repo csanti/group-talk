@@ -126,7 +126,7 @@ public class GrupoDAOImpl implements GrupoDAO {
     @Override
     public GruposCollection getGrupos() throws SQLException {
         // Modelo a devolver
-        GruposCollection gruposCollection = null;
+        GruposCollection gruposCollection = new GruposCollection();
 
         Connection connection = null;
         PreparedStatement stmt = null;
@@ -137,12 +137,10 @@ public class GrupoDAOImpl implements GrupoDAO {
             // Prepara la consulta
             stmt = connection.prepareStatement(GrupoDAOQuery.GET_GRUPOS);
 
-
-
             // Ejecuta la consulta
             ResultSet rs = stmt.executeQuery();
             // Procesa los resultados
-            if (rs.next()) {
+            while (rs.next()) {
                 Grupo grupo = new Grupo();
                 grupo.setId(rs.getString("id"));
                 grupo.setNombre(rs.getString("nombre"));
@@ -160,5 +158,69 @@ public class GrupoDAOImpl implements GrupoDAO {
 
         // Devuelve el modelo
         return gruposCollection;
+    }
+
+    @Override
+    public void joinGrupo(String userid, String grupoid) throws SQLException {
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        try {
+            connection = Database.getConnection();
+
+            stmt = connection.prepareStatement(GrupoDAOQuery.JOIN_GRUPO);
+            stmt.setString(1, userid);
+            stmt.setString(2, grupoid);
+
+            int rows = stmt.executeUpdate();
+
+
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            if (stmt != null) stmt.close();
+            if (connection != null) connection.close();
+        }
+    }
+
+    @Override
+    public boolean leaveGrupo(String userid, String grupoid) throws SQLException {
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        try {
+            connection = Database.getConnection();
+
+            stmt = connection.prepareStatement(GrupoDAOQuery.LEAVE_GRUPO);
+            stmt.setString(1, userid);
+            stmt.setString(2, grupoid);
+
+            int rows = stmt.executeUpdate();
+            return (rows == 1);
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            if (stmt != null) stmt.close();
+            if (connection != null) connection.close();
+        }
+    }
+
+    @Override
+    public boolean checkMembership(String userid, String grupoid) throws SQLException {
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        try {
+            connection = Database.getConnection();
+
+            stmt = connection.prepareStatement(GrupoDAOQuery.CHECK_MEMBERSHIP);
+            stmt.setString(1, userid);
+            stmt.setString(2, grupoid);
+
+            ResultSet rs = stmt.executeQuery();
+            return(rs.next());
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            if (stmt != null) stmt.close();
+            if (connection != null) connection.close();
+        }
     }
 }

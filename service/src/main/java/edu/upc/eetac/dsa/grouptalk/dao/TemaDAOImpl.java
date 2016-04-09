@@ -82,6 +82,7 @@ public class TemaDAOImpl implements TemaDAO {
         } catch (SQLException e) {
             // Relanza la excepción
             throw e;
+
         } finally {
             // Libera la conexión
             if (stmt != null) stmt.close();
@@ -121,7 +122,7 @@ public class TemaDAOImpl implements TemaDAO {
     @Override
     public TemasCollection getTemasFromGrupo(String grupoId) throws SQLException {
         // Modelo a devolver
-        TemasCollection temasCollection = null;
+        TemasCollection temasCollection = new TemasCollection();
 
         Connection connection = null;
         PreparedStatement stmt = null;
@@ -137,7 +138,7 @@ public class TemaDAOImpl implements TemaDAO {
             // Ejecuta la consulta
             ResultSet rs = stmt.executeQuery();
             // Procesa los resultados
-            if (rs.next()) {
+            while (rs.next()) {
                 Tema tema = new Tema();
                 tema.setId(rs.getString("id"));
                 tema.setUserid(rs.getString("userid"));

@@ -21,8 +21,6 @@ public interface UserDAO {
 
     public boolean checkPassword(String id, String password) throws SQLException;
 
-    public void joinGrupo(String userid, String grupoid) throws SQLException;
 
-    public boolean leaveGrupo(String userid, String grupoid) throws SQLException;
 
 }
